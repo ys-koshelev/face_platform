@@ -4,6 +4,7 @@ from utils import running_on_jetson_nano, get_jetson_gstreamer_source
 import numpy as np
 import cv2
 import glob
+from time import time
 
 def encode_face(path_to_photos, path_to_save_encoding):
     photos_list = glob.glob(path_to_photos + '/*.jpg')
@@ -40,7 +41,6 @@ def compare_face_with_etalon(path_to_etalon_encoding):
         video_capture = cv2.VideoCapture(0)
     
     etalon_face_encoding = np.load(path_to_etalon_encoding)
-    
     ret, frame = video_capture.read()
     video_capture.release()
     cv2.destroyAllWindows()
@@ -65,3 +65,46 @@ def compare_face_with_etalon(path_to_etalon_encoding):
         return False
     
 
+def watch_face(path_to_etalon_encoding, time_to_watch):
+    etalon_face_encoding = np.load(path_to_etalon_encoding)
+    if running_on_jetson_nano():
+        # Accessing the camera with OpenCV on a Jetson Nano requires gstreamer with a custom gstreamer source string
+        video_capture = cv2.VideoCapture(get_jetson_gstreamer_source(), cv2.CAP_GSTREAMER)
+    else:
+        # Accessing the camera with OpenCV on a laptop just requires passing in the number of the webcam (usually 0)
+        # Note: You can pass in a filename instead if you want to process a video file instead of a live camera stream
+        video_capture = cv2.VideoCapture(0)
+        
+    start_time = time()
+    start_abscent_time = None
+    while time() - start_time < time_to_watch:
+        # Grab a single frame of video
+        ret, frame = video_capture.read()
+
+        # Resize frame of video to 1/4 size for faster face recognition processing
+        small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+
+        # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
+        rgb_small_frame = small_frame[:, :, ::-1]
+
+        # Find all the face locations and face encodings in the current frame of video
+        face_locations = face_recognition.face_locations(rgb_small_frame)
+        face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
+        
+        if len(face_encodings) > 1:
+            print('ASSERT! Additional humans detected!')
+            
+        elif len(face_encodings) == 0:
+            if start_abscent_time is None:
+                start_abscent_time = time()
+            else:
+                if time() - start_abscent_time > 2:
+                    print('ASSERT! Additional humans detected!')
+        else:
+            face_compares = face_recognition.compare_faces(face_encodings, etalon_face_encoding, tolerance=0.6)
+            if face_compares[0] is False:
+                print('ASSERT! Fake human detected!')
+                
+    video_capture.release()
+    cv2.destroyAllWindows()
+    return None
