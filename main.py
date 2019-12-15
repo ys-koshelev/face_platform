@@ -17,7 +17,7 @@ def encode_face(path_to_photos, path_to_save_encoding):
         face_locations = face_recognition.face_locations(rgb_small_frame)
         face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
         
-        if face_encodings[0] is not None:
+        if len(face_encodings) == 1:
             gen_encoding += face_encodings[0]
             num_faces += 1
     if num_faces != 0:
