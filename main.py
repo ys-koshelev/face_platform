@@ -21,7 +21,7 @@ def encode_face(path_to_photos, path_to_save_encoding):
             gen_encoding += face_encodings[0]
             num_faces += 1
     if num_faces != 0:
-        npsave(gen_encoding/num_faces)
+        npsave(path_to_save_encoding, gen_encoding/num_faces)
         return True
     else:
         print('Failed to encode faces, nothing was saved')
