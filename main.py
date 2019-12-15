@@ -1,4 +1,5 @@
 from backend import encode_face, compare_face_with_etalon, watch_face
+from os import system, name 
 
 def process_a():
     clear()
