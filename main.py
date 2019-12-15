@@ -92,6 +92,7 @@ def watch_face(path_to_etalon_encoding, time_to_watch):
         face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
         
         if len(face_encodings) > 1:
+            start_abscent_time = None
             print('ASSERT! Additional humans detected!')
             
         elif len(face_encodings) == 0:
@@ -99,12 +100,14 @@ def watch_face(path_to_etalon_encoding, time_to_watch):
                 start_abscent_time = time()
             else:
                 if time() - start_abscent_time > 2:
-                    print('ASSERT! Additional humans detected!')
+                    print('ASSERT! None of humans detected!')
         else:
+            start_abscent_time = None
             face_compares = face_recognition.compare_faces(face_encodings, etalon_face_encoding, tolerance=0.6)
             if face_compares[0] is False:
                 print('ASSERT! Fake human detected!')
-                
+        cv2.imshow('Video', frame)
+        
     video_capture.release()
     cv2.destroyAllWindows()
     return None
