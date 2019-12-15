@@ -1,17 +1,5 @@
 from backend import encode_face, compare_face_with_etalon, watch_face
 
-func_dict = {'1': process_a, '2': process_b, '3': process_c}
-
-def clear(): 
-  
-    # for windows 
-    if name == 'nt': 
-        _ = system('cls') 
-  
-    # for mac and linux(here, os.name is 'posix') 
-    else: 
-        _ = system('clear') 
-
 def process_a():
     clear()
     photo_path = input('Print path to folder with photos stored for encoding')
@@ -27,6 +15,18 @@ def process_c():
     etalon_path = input('Print path to etalon encoding')
     duration = input('Specify duration of test in minutes')
     return watch_face(etalon_path, 60*float(duration))
+
+def clear(): 
+  
+    # for windows 
+    if name == 'nt': 
+        _ = system('cls') 
+  
+    # for mac and linux(here, os.name is 'posix') 
+    else: 
+        _ = system('clear') 
+
+func_dict = {'1': process_a, '2': process_b, '3': process_c}
 
 while True:
     val = input("Choose what to test: \n \n 1) Encode face (create etalon to compare), \n 2) Shot one photo and compare it with etalon, \n 3) Contignously watch for person\n")
