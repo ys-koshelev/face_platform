@@ -53,7 +53,7 @@ def compare_face_with_etalon(path_to_etalon_encoding):
     face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
 
     if len(face_encodings) != 0:
-        face_compares = face_recognition.compare_faces(face_encodings, etalon_face_encoding, tolerance=0.65)
+        face_compares = face_recognition.compare_faces(face_encodings, etalon_face_encoding, tolerance=0.6)
         if True in face_compares:
             print(str(len(face_compares)) + ' person/persons on image, one of them is the same, as etalon')
             return True
