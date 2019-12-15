@@ -39,7 +39,7 @@ def compare_face_with_etalon(path_to_etalon_encoding):
         # Note: You can pass in a filename instead if you want to process a video file instead of a live camera stream
         video_capture = cv2.VideoCapture(0)
     
-    etalon_encoding = np.load(path_to_etalon_encoding)
+    etalon_face_encoding = np.load(path_to_etalon_encoding)
     
     ret, frame = video_capture.read()
     video_capture.release()
