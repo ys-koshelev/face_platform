@@ -45,7 +45,6 @@ def compare_face_with_etalon(path_to_etalon_encoding):
     video_capture.release()
     cv2.destroyAllWindows()
     
-    frame = cv2.imread(photo_path)
     small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
 
     # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
