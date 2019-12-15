@@ -55,10 +55,10 @@ def compare_face_with_etalon(path_to_etalon_encoding):
     if len(face_encodings) != 0:
         face_compares = face_recognition.compare_faces(face_encodings, etalon_face_encoding, tolerance=0.65)
         if True in face_compares:
-            print(str(len(face_compares)) + 'person/persons on image, one of them is the same, as etalon')
+            print(str(len(face_compares)) + ' person/persons on image, one of them is the same, as etalon')
             return True
         else:
-            print(str(len(face_compares)) + 'person/persons on image, none of them is the same, as etalon')
+            print(str(len(face_compares)) + ' person/persons on image, none of them is the same, as etalon')
             return False
     else:
         print('No faces were detected on camera!')
