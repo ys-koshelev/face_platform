@@ -1,5 +1,5 @@
 import face_recognition
-from utils import running_on_jetson_nano
+from utils import running_on_jetson_nano, get_jetson_gstreamer_source
 #from numpy import save as npsave
 import numpy as np
 import cv2
