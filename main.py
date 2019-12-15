@@ -1,6 +1,7 @@
 from utils import face_recognition
 from numpy import save as npsave
 import cv2
+import glob
 
 def encode_face(path_to_photos, path_to_save_encoding):
     photos_list = glob.glob(path_to_photos + '/*.jpg')
