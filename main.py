@@ -1,4 +1,5 @@
-from utils import face_recognition
+import face_recognition
+from utils import running_on_jetson_nano
 #from numpy import save as npsave
 import numpy as np
 import cv2
