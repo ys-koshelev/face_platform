@@ -42,6 +42,8 @@ def compare_face_with_etalon(path_to_etalon_encoding):
     etalon_encoding = np.load(path_to_etalon_encoding)
     
     ret, frame = video_capture.read()
+    video_capture.release()
+    
     frame = cv2.imread(photo_path)
     small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
 
