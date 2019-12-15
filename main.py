@@ -104,7 +104,7 @@ def watch_face(path_to_etalon_encoding, time_to_watch):
         else:
             start_abscent_time = None
             face_compares = face_recognition.compare_faces(face_encodings, etalon_face_encoding, tolerance=0.6)
-            if False is in face_compares:
+            if False in face_compares:
                 print('ASSERT! Fake human detected!')
         
     video_capture.release()
